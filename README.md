@@ -1,4 +1,4 @@
-# setup-aspire
+# ![Aspire logo](./aspire-logo.svg) Aspire CLI (setup-aspire)
 
 Install the Aspire CLI on GitHub runners, add it to `PATH`, and cache it for faster pipelines.
 
