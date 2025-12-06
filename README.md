@@ -16,20 +16,33 @@ Install the Aspire CLI on GitHub runners, add it to `PATH`, and cache it for fas
 - `cli-version`: Detected Aspire CLI version after installation.
 - `bin-path`: Path added to `PATH` that contains the `aspire` executable.
 
+You can consume these outputs like any other action outputs in subsequent steps:
+
+```yaml
+- name: Install Aspire CLI
+  id: setup
+  uses: timheuer/setup-aspire@v0.1.0
+
+- name: Show install details
+  run: |
+    echo "CLI version: ${{ steps.setup.outputs.cli-version }}"
+    echo "Binary path: ${{ steps.setup.outputs.bin-path }}"
+```
+
 ## Usage
 
 ### Install latest release
 
 ```yaml
 - name: Install Aspire CLI
-  uses: ./
+  uses: timheuer/setup-aspire@v0.1.0
 ```
 
 ### Pin a version
 
 ```yaml
 - name: Install Aspire CLI 13.0.0
-  uses: ./
+  uses: timheuer/setup-aspire@v0.1.0
   with:
     version: 13.0.0
 ```
@@ -38,7 +51,7 @@ Install the Aspire CLI on GitHub runners, add it to `PATH`, and cache it for fas
 
 ```yaml
 - name: Install staging Aspire CLI
-  uses: ./
+  uses: timheuer/setup-aspire@v0.1.0
   with:
     quality: staging
     install-path: ${{ runner.temp }}/aspire/bin
@@ -55,7 +68,7 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
       - uses: actions/checkout@v4
-      - uses: ./
+      - uses: timheuer/setup-aspire@v0.1.0
       - run: aspire --version
 ```
 
