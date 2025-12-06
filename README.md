@@ -67,8 +67,7 @@ jobs:
 
 ## Release & versioning
 
-- Conventional commits drive releases (`feat`, `fix`, `chore`, etc.).
-- Releases are automated by [release-please](https://github.com/google-github-actions/release-please-action); it opens a PR that bumps the version, updates `CHANGELOG.md`, and tags on merge.
-- `dist/` is kept in the repo so `uses: timheuer/setup-aspire@main` always works. CI runs `npm run check:dist` to ensure the built bundle is committed.
-- Use the moving major tag (`v1`) for stability; it advances with each published release.
-- To cut a release manually, merge the release-please PR (or run the `release-please` workflow via `workflow_dispatch`).
+- Conventional commits recommended (`feat`, `fix`, `chore`, etc.).
+- Releases are manual via the `release` workflow (`workflow_dispatch`): provide a tag like `v0.2.0`; the workflow builds, verifies `dist/`, creates/pushes the tag, optionally moves the major tag (e.g., `v1`), and publishes a GitHub Release.
+- `dist/` is kept in the repo so `uses: timheuer/setup-aspire@main` always works. CI runs `npm run check:dist` to ensure the bundled code is committed.
+- Use the moving major tag (`v1`) for stability; it advances when the release workflow is run with `move-major` enabled (default).
