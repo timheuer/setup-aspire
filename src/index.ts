@@ -56,11 +56,14 @@ function detectPlatform(): Platform {
 async function downloadInstaller(isWindows: boolean): Promise<string> {
   const url = isWindows ? 'https://aspire.dev/install.ps1' : 'https://aspire.dev/install.sh';
   core.info(`Downloading Aspire installer from ${url}`);
-  const scriptPath = await tc.downloadTool(url);
-  if (!isWindows) {
-    fs.chmodSync(scriptPath, 0o755);
+  const downloadPath = await tc.downloadTool(url);
+  if (isWindows) {
+    const renamed = `${downloadPath}.ps1`;
+    await io.mv(downloadPath, renamed);
+    return renamed;
   }
-  return scriptPath;
+  fs.chmodSync(downloadPath, 0o755);
+  return downloadPath;
 }
 
 async function runInstaller(
