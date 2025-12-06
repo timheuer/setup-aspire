@@ -103,6 +103,45 @@ async function validateAspire(binPath: string): Promise<string> {
   return parsed;
 }
 
+function buildInstallerArgs(options: {
+  version?: string;
+  quality?: string;
+  installPath: string;
+  osOverride?: string;
+  archOverride?: string;
+  isWindows: boolean;
+}): string[] {
+  const args: string[] = [];
+  if (options.isWindows) {
+    args.push('-InstallPath', options.installPath);
+    if (options.version) {
+      args.push('-Version', options.version);
+    } else if (options.quality) {
+      args.push('-Quality', options.quality);
+    }
+    if (options.osOverride) {
+      args.push('-OS', options.osOverride);
+    }
+    if (options.archOverride) {
+      args.push('-Architecture', options.archOverride);
+    }
+  } else {
+    args.push('--install-path', options.installPath);
+    if (options.version) {
+      args.push('--version', options.version);
+    } else if (options.quality) {
+      args.push('--quality', options.quality);
+    }
+    if (options.osOverride) {
+      args.push('--os', options.osOverride);
+    }
+    if (options.archOverride) {
+      args.push('--arch', options.archOverride);
+    }
+  }
+  return args;
+}
+
 async function installAspire(options: {
   version?: string;
   quality?: string;
@@ -112,18 +151,7 @@ async function installAspire(options: {
   isWindows: boolean;
 }): Promise<void> {
   await io.mkdirP(options.installPath);
-  const args: string[] = ['--install-path', options.installPath];
-  if (options.version) {
-    args.push('--version', options.version);
-  } else if (options.quality) {
-    args.push('--quality', options.quality);
-  }
-  if (options.osOverride) {
-    args.push('--os', options.osOverride);
-  }
-  if (options.archOverride) {
-    args.push('--arch', options.archOverride);
-  }
+  const args = buildInstallerArgs(options);
 
   const scriptPath = await downloadInstaller(options.isWindows);
   core.info(`Running Aspire installer to ${options.installPath}`);
