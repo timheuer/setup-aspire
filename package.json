@@ -4,8 +4,26 @@
   "private": true,
   "description": "GitHub Action to install and cache the Aspire CLI",
   "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/timheuer/setup-aspire.git"
+  },
+  "author": "Tim Heuer",
+  "license": "MIT",
+  "keywords": [
+    "github-action",
+    "aspire",
+    "cli",
+    "setup"
+  ],
+  "bugs": {
+    "url": "https://github.com/timheuer/setup-aspire/issues/"
+  },
+  "homepage": "https://github.com/timheuer/setup-aspire#readme",
+  "qna": "https://github.com/timheuer/setup-aspire/issues/",
   "scripts": {
     "build": "tsup",
+    "check:dist": "tsup && git diff --exit-code dist",
     "test": "node -e \"console.log('ok')\""
   },
   "engines": {

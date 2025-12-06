@@ -64,3 +64,11 @@ jobs:
 - The action enforces mutual exclusivity: provide either `version` **or** `quality` (not both).
 - It validates `.NET SDK >= 10.0.0` by default; set `dotnet-prereq-check: false` to skip (not recommended).
 - Caching uses the GitHub tool-cache keyed by `version` or `quality-*`; on cache hit the installer is skipped.
+
+## Release & versioning
+
+- Conventional commits drive releases (`feat`, `fix`, `chore`, etc.).
+- Releases are automated by [release-please](https://github.com/google-github-actions/release-please-action); it opens a PR that bumps the version, updates `CHANGELOG.md`, and tags on merge.
+- `dist/` is kept in the repo so `uses: timheuer/setup-aspire@main` always works. CI runs `npm run check:dist` to ensure the built bundle is committed.
+- Use the moving major tag (`v1`) for stability; it advances with each published release.
+- To cut a release manually, merge the release-please PR (or run the `release-please` workflow via `workflow_dispatch`).

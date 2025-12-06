@@ -1,41 +1,41 @@
 name: CI
 
 on:
-    push:
-        branches: [main]
-    pull_request:
+  push:
+    branches: [main]
+  pull_request:
 
 jobs:
-    build-and-test:
-        runs-on: ${{ matrix.os }}
-        strategy:
-            fail-fast: false
-            matrix:
-                os: [ubuntu-latest, macos-latest, windows-latest]
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v4
+  build-and-test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-            - name: Use Node.js 20
-              uses: actions/setup-node@v4
-              with:
-                  node-version: 20
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
-            - name: Install dependencies
-              run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-            - name: Build
-              run: npm run build
+      - name: Build
+        run: npm run check:dist
 
-            - name: Self-test setup-aspire action
-              id: self-test
-              uses: ./
-              with:
-                  quality: release
+      - name: Self-test setup-aspire action
+        id: self-test
+        uses: ./
+        with:
+          quality: release
 
-            - name: Show Aspire version from CLI
-              run: aspire --version
+      - name: Show Aspire version from CLI
+        run: aspire --version
 
-            - name: Show Aspire version from self-test output
-              run: |
-                  echo "Aspire version: ${{ steps.self-test.outputs.cli-version }}"
+      - name: Show Aspire version from self-test output
+        run: |
+          echo "Aspire version: ${{ steps.self-test.outputs.cli-version }}"

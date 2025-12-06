@@ -1,8 +1,8 @@
 name: "setup-aspire"
 description: "Install and cache the Aspire CLI on GitHub runners"
 branding:
-  icon: "download"
-  color: "blue"
+  icon: "upload-cloud"
+  color: "purple"
 inputs:
   version:
     description: "Aspire CLI version to install (mutually exclusive with quality)"
