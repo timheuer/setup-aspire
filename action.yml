@@ -1,0 +1,38 @@
+name: "setup-aspire"
+description: "Install and cache the Aspire CLI on GitHub runners"
+branding:
+  icon: "download"
+  color: "blue"
+inputs:
+  version:
+    description: "Aspire CLI version to install (mutually exclusive with quality)"
+    required: false
+  quality:
+    description: "Aspire CLI channel to install (release|staging|dev); mutually exclusive with version"
+    required: false
+    default: ""
+  install-path:
+    description: "Directory to install Aspire CLI binaries into"
+    required: false
+  os:
+    description: "Override OS detection for installer (win|linux|linux-musl|osx)"
+    required: false
+  arch:
+    description: "Override architecture detection for installer (x64|x86|arm64)"
+    required: false
+  dotnet-prereq-check:
+    description: "Check for a minimum .NET SDK version before installing"
+    required: false
+    default: "true"
+  cache:
+    description: "Cache the installed Aspire CLI via GitHub tool-cache"
+    required: false
+    default: "true"
+outputs:
+  cli-version:
+    description: "Detected Aspire CLI version after installation"
+  bin-path:
+    description: "Path added to PATH that contains the aspire executable"
+runs:
+  using: "node20"
+  main: "dist/index.js"
